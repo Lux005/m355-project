@@ -1,17 +1,20 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title> Leaderboeard </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-content color="light">
+    <ion-list *ngFor="let score of scores" [inset]="true">
+      <ion-item>
+        <ion-list-header>
+          <ion-list-header>{{ score.name }}</ion-list-header>
+          <ion-label>time: {{ score.time }}</ion-label>
+          <ion-label>{{ score.avocados }}x🥑</ion-label>
+          <ion-label>{{ score.potatos }}x🥔</ion-label>
+        </ion-list-header>
+      </ion-item></ion-list
+    ></ion-content
+  >
 </ion-content>
