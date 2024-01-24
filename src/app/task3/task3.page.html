@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>task3</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-button id="leave1" shape="round">Abbrechen</ion-button>
+  <ion-alert
+    trigger="leave1"
+    header="Willst du wirklich abbrechen?"
+    [buttons]="alertButtons"
+  ></ion-alert>
+
+  <ion-button (click)="nextPage()">continue</ion-button>
+</ion-content>

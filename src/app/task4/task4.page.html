@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>task4</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-button id="leave3" shape="round">Abbrechen</ion-button>
+  <ion-alert
+    trigger="leave3"
+    header="Willst du wirklich abbrechen?"
+    [buttons]="alertButtons1"
+  ></ion-alert>
+
+  <ion-button (click)="checkBatteryStatus()">check charging status</ion-button>
+
+  <ion-alert
+    [isOpen]="isAlertOpen"
+    header="Gratulation"
+    [buttons]="alertButtons2"
+  ></ion-alert>
+</ion-content>
