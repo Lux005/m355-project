@@ -11,6 +11,7 @@ import {
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Router } from '@angular/router';
+import { GeolocationPluginPermissions } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-tab1',

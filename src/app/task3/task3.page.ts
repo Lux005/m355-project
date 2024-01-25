@@ -10,7 +10,6 @@ import { NgForm } from '@angular/forms';
 
 @Component({
   imports: [IonicModule, CommonModule, FormsModule],
-  providers: [],
   selector: 'app-task3',
   standalone: true,
   styleUrls: ['./task3.page.scss'],
@@ -29,6 +28,7 @@ export class Task3Page implements OnInit {
       this.isSupported = result.supported;
     });
   }
+
   async scan(): Promise<void> {
     const granted = await this.requestPermissions();
     if (!granted) {

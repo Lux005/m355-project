@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Geolocation, GeolocationPosition } from '@capacitor/geolocation';
+import { Geolocation } from '@capacitor/geolocation';
+import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 
 @Component({
   selector: 'app-task1',
@@ -20,8 +21,8 @@ export class Task1Page implements OnInit, OnDestroy {
   };
   public coordinatesMatch: boolean = false;
   private zielDestination = {
-    latitude: 47.3768866,
-    longitude: 8.541694,
+    latitude: 47.072024,
+    longitude: 8.3489759,
   };
 
   constructor(private router: Router) {}
@@ -45,14 +46,17 @@ export class Task1Page implements OnInit, OnDestroy {
   ];
 
   async ngOnInit() {
-    //[this.watchId] = await Promise.all([
-    //Geolocation.watchPosition({}, (position: GeolocationPosition) => {
-    // this.updateCurrentLocation(position);
-    // }),
-    // ]);
+    this.watchId = await Geolocation.watchPosition(
+      {
+        enableHighAccuracy: true, // Erhöht die Genauigkeit der Position
+      },
+      (position) => {
+        this.updateCurrentLocation(position);
+      },
+    );
   }
 
-  updateCurrentLocation(location: GeolocationPosition) {
+  updateCurrentLocation(location: any) {
     this.currentLocation = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -60,12 +64,20 @@ export class Task1Page implements OnInit, OnDestroy {
 
     console.log('Aktuelle Position aktualisiert:', this.currentLocation);
 
-    const schwellenwertInKilometern = 0.006;
+    const schwellenwertInKilometern = 0.015;
     const distanz = this.berechneDistanz(
       this.currentLocation,
       this.zielDestination,
     );
     this.coordinatesMatch = distanz <= schwellenwertInKilometern;
+    console.log(
+      'distanz',
+      distanz,
+      'schwellenwertInKilometern',
+      schwellenwertInKilometern,
+      'match:',
+      this.coordinatesMatch,
+    );
   }
 
   private berechneDistanz(
@@ -85,6 +97,7 @@ export class Task1Page implements OnInit, OnDestroy {
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distanz in Kilometern
+    console.log(distance);
     return distance;
   }
 
