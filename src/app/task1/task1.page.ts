@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation, GeolocationPosition } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-task1',
@@ -12,15 +12,19 @@ import { Geolocation } from '@capacitor/geolocation';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
-export class Task1Page implements OnInit {
-  constructor(private router: Router) {}
-
-  private updateInterval: any; // Timer-Variable
+export class Task1Page implements OnInit, OnDestroy {
+  private watchId: any; // Variable zum Speichern der Watch-ID
   public currentLocation: { latitude: number; longitude: number } = {
     latitude: 0,
     longitude: 0,
   };
   public coordinatesMatch: boolean = false;
+  private zielDestination = {
+    latitude: 47.3768866,
+    longitude: 8.541694,
+  };
+
+  constructor(private router: Router) {}
 
   public alertButtons = [
     {
@@ -35,49 +39,34 @@ export class Task1Page implements OnInit {
       role: 'confirm',
       handler: () => {
         console.log('Alert confirmed');
-
         this.router.navigate(['/tabs']);
       },
     },
   ];
 
   async ngOnInit() {
-    this.updateCurrentLocation();
-
-    this.updateInterval = setInterval(() => {
-      this.updateCurrentLocation();
-    }, 5000);
-  }
-  ngOnDestroy() {
-    clearInterval(this.updateInterval);
+    //[this.watchId] = await Promise.all([
+    //Geolocation.watchPosition({}, (position: GeolocationPosition) => {
+    // this.updateCurrentLocation(position);
+    // }),
+    // ]);
   }
 
-  async updateCurrentLocation() {
-    try {
-      const location = await Geolocation.getCurrentPosition();
-      const newLocation = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
+  updateCurrentLocation(location: GeolocationPosition) {
+    this.currentLocation = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
 
-      console.log('Aktuelle Position aktualisiert:', newLocation);
+    console.log('Aktuelle Position aktualisiert:', this.currentLocation);
 
-      // Überprüfen, ob die aktuellen Koordinaten ungefähr gleich der Zieldestination sind
-      const schwellenwertInKilometern = 1;
-      const distanz = this.berechneDistanz(newLocation, this.zielDestination);
-
-      // Wenn die Distanz kleiner oder gleich dem Schwellenwert ist, setzen wir coordinatesMatch auf true
-      this.coordinatesMatch = distanz <= schwellenwertInKilometern;
-
-      this.currentLocation = newLocation;
-    } catch (error) {
-      console.error('Fehler beim Aktualisieren der Position:', error);
-    }
+    const schwellenwertInKilometern = 0.006;
+    const distanz = this.berechneDistanz(
+      this.currentLocation,
+      this.zielDestination,
+    );
+    this.coordinatesMatch = distanz <= schwellenwertInKilometern;
   }
-  private zielDestination = {
-    latitude: 47.07194942144848,
-    longitude: 8.348942162075302,
-  };
 
   private berechneDistanz(
     coord1: { latitude: number; longitude: number },
@@ -95,7 +84,6 @@ export class Task1Page implements OnInit {
         Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
     const distance = R * c; // Distanz in Kilometern
     return distance;
   }
@@ -105,6 +93,15 @@ export class Task1Page implements OnInit {
   }
 
   nextPage() {
+    if (this.watchId != null) {
+      Geolocation.clearWatch({ id: this.watchId });
+    }
     this.router.navigate(['/task2']);
+  }
+
+  ngOnDestroy() {
+    if (this.watchId != null) {
+      Geolocation.clearWatch({ id: this.watchId });
+    }
   }
 }
