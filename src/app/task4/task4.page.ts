@@ -18,7 +18,7 @@ export class Task4Page implements OnInit {
   private updateInterval: any;
   charging?: boolean;
   isAlertOpen = false;
-  alertButtons = ['Action'];
+
   constructor(private router: Router) {}
   ngOnInit() {
     this.checkBatteryStatus();
@@ -28,16 +28,11 @@ export class Task4Page implements OnInit {
     }, 5000);
   }
 
-  checkBatteryStatus() {
-    this.info = Device.getBatteryInfo();
+  async checkBatteryStatus() {
+    this.info = await Device.getBatteryInfo();
     this.charging = this.info.isCharging;
-    console.log(this.info);
-    if (this.info.isCharging) {
-      this.setOpen(true);
-    }
-  }
-  setOpen(isOpen: boolean) {
-    this.isAlertOpen = isOpen;
+    console.log('here', this.info);
+    this.isAlertOpen = this.info.isCharging;
   }
 
   public alertButtons1 = [
@@ -59,13 +54,13 @@ export class Task4Page implements OnInit {
     },
   ];
 
-  public alertButtons2 = [
+  public alertButtons = [
     {
       text: 'weiter',
       role: 'confirm',
       handler: () => {
         console.log('Alert confirmed');
-
+        clearInterval(this.updateInterval);
         this.router.navigate(['/tabs']);
       },
     },

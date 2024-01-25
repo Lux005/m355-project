@@ -30,6 +30,7 @@
       <ion-label>Longitude: {{ currentLocation.longitude }}</ion-label>
     </ion-item>
   </ion-content>
+  <ion-label *ngIf="coordinatesMatch"> Ziel erreicht</ion-label>
 
   <ion-button *ngIf="coordinatesMatch" (click)="nextPage()"
     >continue</ion-button
