@@ -51,7 +51,7 @@ export class Tab1Page {
       role: 'confirm',
       handler: () => {
         console.log('Alert confirmed');
-        this;
+        this.timerService.starttime();
         this.router.navigate(['/task1']);
       },
     },
