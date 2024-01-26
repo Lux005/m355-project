@@ -1,23 +1,26 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> task 2 </ion-title>
+    <ion-title>RUNNN!!!</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button id="leave2" shape="round">Abbrechen</ion-button>
-  <ion-alert
-    trigger="leave2"
-    header="Willst du wirklich abbrechen?"
-    [buttons]="alertButtons"
-  ></ion-alert>
-
-  <ion-button (click)="nextPage()">continue</ion-button>
+  <ion-fab horizontal="end">
+    <ion-button id="leave2" shape="round">Abbrechen</ion-button>
+    <ion-alert
+      trigger="leave2"
+      header="Willst du wirklich abbrechen?"
+      [buttons]="alertButtons"
+    ></ion-alert>
+  </ion-fab>
 
   <ion-item>
-    <ion-label> Nun lauft so schnell ihr könnt 30 Meter. </ion-label>
-    <ion-label>Latitude: {{ currentLocation.latitude }}</ion-label>
-    <ion-label>Longitude: {{ currentLocation.longitude }}</ion-label>
+    <ion-label>
+      <br />
+      <br />
+      <br />Nun lauft so schnell ihr könnt 30 Meter um eine weitere Avocado
+      einzufangen.
+    </ion-label>
   </ion-item>
 
   <ion-label *ngIf="coordinatesMatch"> Ziel erreicht</ion-label>

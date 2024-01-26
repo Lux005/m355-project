@@ -25,15 +25,14 @@ export class Task3Page implements OnInit {
   barcodes: Barcode[] = [];
   finished: boolean = false;
 
-  async ngOnInit() {
-    if (this.finished) {
-      await Haptics.vibrate({ duration: 500 });
-    }
-  }
+  ngOnInit() {}
 
   async scan(): Promise<void> {
     this.finished =
       (await BarcodeScanner.scan()).barcodes[0].rawValue == 'M335@ICT-BZ';
+    if (this.finished) {
+      await Haptics.vibrate({ duration: 500 });
+    }
   }
 
   public alertButtons = [

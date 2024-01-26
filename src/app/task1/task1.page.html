@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>task1</ion-title>
+    <ion-title>Geolocation</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,22 +11,23 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-button id="leave" shape="round">Abbrechen</ion-button>
-  <ion-alert
-    trigger="leave"
-    header="Willst du wirklich abbrechen?"
-    [buttons]="alertButtons"
-  ></ion-alert>
-
-  <ion-button (click)="nextPage()">continue</ion-button>
+  <ion-fab horizontal="end">
+    <ion-button id="leave" shape="round">Abbrechen</ion-button>
+    <ion-alert
+      trigger="leave"
+      header="Willst du wirklich abbrechen?"
+      [buttons]="alertButtons"
+    ></ion-alert>
+  </ion-fab>
 
   <ion-item>
     <ion-label>
+      <br />
+      <br />
+      <br />
       Hier beginnt eure Reise. Begebt euch zu folgenden Koordinaten um weiter zu
       kommen und eine Avocado zu finden.
     </ion-label>
-    <ion-label>Latitude: {{ currentLocation.latitude }}</ion-label>
-    <ion-label>Longitude: {{ currentLocation.longitude }}</ion-label>
   </ion-item>
 
   <ion-label *ngIf="coordinatesMatch"> Ziel erreicht</ion-label>
@@ -34,5 +35,4 @@
   <ion-button *ngIf="coordinatesMatch" (click)="nextPage()"
     >continue</ion-button
   >
-  {{coordinatesMatch}}
 </ion-content>

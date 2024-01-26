@@ -60,10 +60,6 @@ export class Task1Page implements OnInit, OnDestroy {
         this.updateCurrentLocation(position);
       },
     );
-
-    if (this.coordinatesMatch) {
-      await Haptics.vibrate({ duration: 500 });
-    }
   }
 
   updateCurrentLocation(location: any) {
@@ -90,6 +86,9 @@ export class Task1Page implements OnInit, OnDestroy {
         this.coordinatesMatch,
       );
     });
+    if (this.coordinatesMatch) {
+      Haptics.vibrate({ duration: 500 });
+    }
   }
 
   private berechneDistanz(

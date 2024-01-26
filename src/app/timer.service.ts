@@ -11,20 +11,35 @@ export class TimerService {
   startTimer() {
     this.starttime = new Date();
     console.log('timerstarted');
+    console.log(this.starttime);
   }
 
   stopTimer() {
     this.stoptime = new Date();
     console.log('timerstopped');
+    console.log(this.stoptime);
+  }
+  houres() {
+    return Math.floor((this.stoptime - this.starttime) / 3_600_000);
+  }
+  minutes() {
+    return Math.floor((this.stoptime - this.starttime) / 60_000);
+  }
+  seconds() {
+    return Math.floor((this.stoptime - this.starttime) / 1_000);
   }
   getTime() {
-    var diffMs = this.stoptime - this.starttime; // milliseconds between now & Christmas
-    var diffDays = Math.floor(diffMs / 86400000); // days
-    var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
-    var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
     console.log(
-      diffDays + ' days, ' + diffHrs + ' hours, ' + diffMins + ' minutes',
+      this.houres() +
+        ' hours, ' +
+        this.minutes() +
+        ' minutes' +
+        this.seconds() +
+        'seconds',
     );
-    return diffHrs + ':' + diffMins;
+    return this.houres() + ':' + this.minutes() + ':' + this.seconds();
+  }
+  getMinutes() {
+    return this.minutes();
   }
 }

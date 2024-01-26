@@ -1,19 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>task3</ion-title>
+    <ion-title>QR-Quest</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button id="leave1" shape="round">Abbrechen</ion-button>
-  <ion-alert
-    trigger="leave1"
-    header="Willst du wirklich abbrechen?"
-    [buttons]="alertButtons"
-  ></ion-alert>
+  <ion-fab horizontal="end">
+    <ion-button id="leave1" shape="round">Abbrechen</ion-button>
+    <ion-alert
+      trigger="leave1"
+      header="Willst du wirklich abbrechen?"
+      [buttons]="alertButtons"
+    ></ion-alert>
+  </ion-fab>
 
-  <ion-button (click)="nextPage()">continue</ion-button>
-  {{this.finished}}
+  <ion-item>
+    <ion-label>
+      <br />
+      <br />
+      <br />
+      Nun sucht den richtigen QR-Code, scannt ihn und falls es der richtige ist,
+      kommt ihr weiter und bekommt eine Avocado dazu.
+    </ion-label>
+  </ion-item>
 
   <ion-fab vertical="bottom" horizontal="end">
     <ion-button (click)="scan()"> scan </ion-button>

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { BatteryInfo, Device } from '@capacitor/device';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { style } from '@angular/animations';
+import { TimerService } from '../timer.service';
 
 @Component({
   selector: 'app-task4',
@@ -16,18 +17,25 @@ import { style } from '@angular/animations';
 })
 export class Task4Page implements OnInit {
   info?: any;
+  timeUsed: any;
+  potatos: any;
 
   private updateInterval: any;
   charging?: boolean;
   isAlertOpen = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private timerService: TimerService,
+  ) {}
   ngOnInit() {
     this.checkBatteryStatus();
 
-    this.updateInterval = setInterval(() => {
-      this.checkBatteryStatus();
-    }, 5000);
+    if (this.isAlertOpen) {
+      this.updateInterval = setInterval(() => {
+        this.checkBatteryStatus();
+      }, 5000);
+    }
   }
 
   async checkBatteryStatus() {
@@ -35,8 +43,14 @@ export class Task4Page implements OnInit {
     this.charging = this.info.isCharging;
     console.log('here', this.info);
     this.isAlertOpen = this.info.isCharging;
+    console.log(this.isAlertOpen);
     if (this.info.isCharging == true) {
       await Haptics.vibrate({ duration: 500 });
+    }
+    this.timerService.stopTimer();
+    this.timeUsed = this.timerService.getTime();
+    if (this.timerService.getMinutes() >= 10) {
+      this.potatos = 4;
     }
   }
 
@@ -66,6 +80,8 @@ export class Task4Page implements OnInit {
       handler: () => {
         console.log('Alert confirmed');
         clearInterval(this.updateInterval);
+        this.isAlertOpen = false;
+
         this.router.navigate(['/tabs']);
       },
     },
