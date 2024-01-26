@@ -46,9 +46,9 @@ export class Task4Page implements OnInit {
     console.log(this.isAlertOpen);
     if (this.info.isCharging == true) {
       await Haptics.vibrate({ duration: 500 });
+      this.timerService.stopTimer();
+      this.timeUsed = this.timerService.getTime();
     }
-    this.timerService.stopTimer();
-    this.timeUsed = this.timerService.getTime();
     if (this.timerService.getMinutes() >= 10) {
       this.potatos = 4;
     }

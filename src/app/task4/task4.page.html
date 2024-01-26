@@ -14,14 +14,6 @@
     ></ion-alert>
   </ion-fab>
 
-  <ion-alert
-    [isOpen]="isAlertOpen"
-    header="Gratulation"
-    subHeader="Zeit Benötigt: {{this.timeUsed}}"
-    message="🥑: 4, 🥔: {{this.potatos}}"
-    [buttons]="alertButtons"
-  ></ion-alert>
-
   <ion-item>
     <ion-label>
       <br />
@@ -31,4 +23,12 @@
       ein!!!! Dafür bekommt ihr auch eine weitere Avocado</ion-label
     ></ion-item
   >
+
+  <ion-alert
+    [isOpen]="isAlertOpen"
+    header="Gratulation"
+    subHeader="Zeit Benötigt: {{this.timeUsed}}"
+    message="🥑: 4, 🥔: {{this.potatos}}"
+    [buttons]="alertButtons"
+  ></ion-alert>
 </ion-content>
