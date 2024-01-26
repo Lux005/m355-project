@@ -13,4 +13,17 @@
   ></ion-alert>
 
   <ion-button (click)="nextPage()">continue</ion-button>
+
+  <ion-item>
+    <ion-label> Nun lauft so schnell ihr könnt 30 Meter. </ion-label>
+    <ion-label>Latitude: {{ currentLocation.latitude }}</ion-label>
+    <ion-label>Longitude: {{ currentLocation.longitude }}</ion-label>
+  </ion-item>
+
+  <ion-label *ngIf="coordinatesMatch"> Ziel erreicht</ion-label>
+
+  <ion-button *ngIf="coordinatesMatch" (click)="nextPage()"
+    >continue</ion-button
+  >
+  {{coordinatesMatch}}
 </ion-content>

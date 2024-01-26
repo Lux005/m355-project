@@ -5,6 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Geolocation } from '@capacitor/geolocation';
 import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { NgZone } from '@angular/core';
+import { options } from 'ionicons/icons';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-task1',
@@ -25,7 +28,10 @@ export class Task1Page implements OnInit, OnDestroy {
     longitude: 8.3489759,
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private ngZone: NgZone,
+  ) {}
 
   public alertButtons = [
     {
@@ -54,30 +60,36 @@ export class Task1Page implements OnInit, OnDestroy {
         this.updateCurrentLocation(position);
       },
     );
+
+    if (this.coordinatesMatch) {
+      await Haptics.vibrate({ duration: 500 });
+    }
   }
 
   updateCurrentLocation(location: any) {
-    this.currentLocation = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
+    this.ngZone.run(() => {
+      this.currentLocation = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
 
-    console.log('Aktuelle Position aktualisiert:', this.currentLocation);
+      console.log('Aktuelle Position aktualisiert:', this.currentLocation);
 
-    const schwellenwertInKilometern = 0.015;
-    const distanz = this.berechneDistanz(
-      this.currentLocation,
-      this.zielDestination,
-    );
-    this.coordinatesMatch = distanz <= schwellenwertInKilometern;
-    console.log(
-      'distanz',
-      distanz,
-      'schwellenwertInKilometern',
-      schwellenwertInKilometern,
-      'match:',
-      this.coordinatesMatch,
-    );
+      const schwellenwertInKilometern = 0.015;
+      const distanz = this.berechneDistanz(
+        this.currentLocation,
+        this.zielDestination,
+      );
+      this.coordinatesMatch = distanz <= schwellenwertInKilometern;
+      console.log(
+        'distanz',
+        distanz,
+        'schwellenwertInKilometern',
+        schwellenwertInKilometern,
+        'match:',
+        this.coordinatesMatch,
+      );
+    });
   }
 
   private berechneDistanz(
@@ -109,6 +121,7 @@ export class Task1Page implements OnInit, OnDestroy {
     if (this.watchId != null) {
       Geolocation.clearWatch({ id: this.watchId });
     }
+
     this.router.navigate(['/task2']);
   }
 

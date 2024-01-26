@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { BatteryInfo, Device } from '@capacitor/device';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-task4',
@@ -33,6 +35,9 @@ export class Task4Page implements OnInit {
     this.charging = this.info.isCharging;
     console.log('here', this.info);
     this.isAlertOpen = this.info.isCharging;
+    if (this.info.isCharging == true) {
+      await Haptics.vibrate({ duration: 500 });
+    }
   }
 
   public alertButtons1 = [

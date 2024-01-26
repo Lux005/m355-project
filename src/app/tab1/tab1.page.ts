@@ -12,6 +12,12 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Router } from '@angular/router';
 import { GeolocationPluginPermissions } from '@capacitor/geolocation';
+import { Geolocation } from '@capacitor/geolocation';
+import {
+  BarcodeScanner,
+  GoogleBarcodeScannerModuleInstallState,
+} from '@capacitor-mlkit/barcode-scanning';
+import { TimerService } from '../timer.service';
 
 @Component({
   selector: 'app-tab1',
@@ -31,6 +37,7 @@ import { GeolocationPluginPermissions } from '@capacitor/geolocation';
 })
 export class Tab1Page {
   imageUrl?: string;
+
   public alertButtons = [
     {
       text: 'abbrechen',
@@ -44,7 +51,7 @@ export class Tab1Page {
       role: 'confirm',
       handler: () => {
         console.log('Alert confirmed');
-
+        this;
         this.router.navigate(['/task1']);
       },
     },
@@ -58,7 +65,17 @@ export class Tab1Page {
     },
   ];
 
-  constructor(private router: Router) {}
+  async getPermissions() {
+    // Anfrage für GPS-Berechtigung
+    await Geolocation.requestPermissions();
+
+    // Anfrage für Kamera-Berechtigung
+    await BarcodeScanner.requestPermissions();
+  }
+  constructor(
+    private router: Router,
+    private timerService: TimerService,
+  ) {}
 
   async openCamera() {
     const image = await Camera.getPhoto({

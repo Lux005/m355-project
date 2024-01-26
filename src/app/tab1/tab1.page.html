@@ -5,7 +5,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button id="start" shape="round">Start</ion-button>
+  <ion-button (click)="getPermissions()" id="start" shape="round"
+    >Start</ion-button
+  >
   <ion-alert
     trigger="start"
     header="bitte Namen eingeben"
